@@ -1,0 +1,24 @@
+{
+    "technical_fields": {
+        "hdiff" : {
+            "name" : "HDIFF",
+            "type" : "STRING"
+        },
+        "ldts" : {
+            "name" : "LDTS",
+            "type" : "TIMESTAMP"
+        },
+        "rsrc" : {
+            "name" : "RSRC",
+            "type" : "STRING"
+        },
+        "is_deleted" : {
+            "name" : "META_IS_DELETED",
+            "type" : "BOOL"
+        },
+        "job_instance" : {
+            "name" : "META_JOB_INSTANCE_ID",
+            "type" : "INTEGER"
+        }
+    }
+}

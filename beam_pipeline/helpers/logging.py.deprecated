@@ -1,0 +1,26 @@
+import logging, sys
+from pathlib import Path
+
+def setup_logger(name:str, log_path:Path=None) -> logging.Logger:
+    logger = logging.getLogger(name)
+    logger.setLevel(level=logging.INFO)
+
+    log_formatter = logging.Formatter(
+        #fmt = f'%(levelname)-8s %(asctime)s \t %(filename)s @function %(funcName)s line %(lineno)s - %(message)s',
+        fmt = f'%(levelname)-8s %(asctime)s - %(module)s - @function %(funcName)s - line %(lineno)s - %(message)s',
+        datefmt='%H:%M:%S'
+    )
+
+    stream_handler = logging.StreamHandler(stream=sys.stdout)
+    stream_handler.setFormatter(log_formatter)
+    stream_handler.setLevel(level=logging.INFO)
+    logger.addHandler(stream_handler)
+
+    if log_path:
+        file_handler = logging.FileHandler(filename=log_path.as_posix())
+        file_handler.setFormatter(log_formatter)
+        file_handler.setLevel(level=logging.INFO)
+        logger.addHandler(file_handler)
+
+
+    return logger

@@ -1,0 +1,10 @@
+pydantic
+pre-commit
+pylint
+apache-beam
+apache-beam[gcp]
+apache_beam[dataframe]
+google-cloud-storage
+google-cloud-bigquery
+google-cloud-logging
+pandas

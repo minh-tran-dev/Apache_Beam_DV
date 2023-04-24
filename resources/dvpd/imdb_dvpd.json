@@ -1,0 +1,46 @@
+{
+	"DVPD_Version": "1.0",
+	"pipeline_name": "imdb",
+	"record_source_name_expression": "kaggle.imdb",
+	"data_extraction": {
+		"fetch_module_name": "file_read",
+		"increment_logic": "",
+		"search_expression": "test_data2.csv",
+		"file_archive_path": "resources/csv/",
+		"parse_module_name": "",
+		"codepage": "UTF_8",
+		"columnseparator": ",",
+		"rowseparator": "\n",
+		"skip_first_rows": "0",
+		"reject_procedure": ""
+	},
+	"data_destination": {
+		"database": "bigquery",
+		"provider": "gcp",
+        "project" : "cimt-hh",
+        "temp_file" : "gs://cimt-hh-temp-files"
+	},
+	"fields": [
+		      	{"field_name":"rank",    "technical_type": "INTEGER", "targets": [{"table_name": "rkggl_movie_sat"}]},
+				{"field_name":"name",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_movie_hub"}]},
+				{"field_name":"year",    "technical_type": "INTEGER", "targets": [{"table_name": "rkggl_movie_sat"}]},
+				{"field_name":"rating",    "technical_type": "FLOAT", "targets": [{"table_name": "rkggl_movie_sat"}]},
+				{"field_name":"genre",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_genre_hub"}]},
+				{"field_name":"certificate",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_cert_hub"}]},
+				{"field_name":"run_time",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_movie_sat"}]},
+				{"field_name":"tagline",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_movie_sat"}]},
+				{"field_name":"budget",    "technical_type": "INTEGER", "targets": [{"table_name": "rkggl_movie_sat"}]},
+				{"field_name":"box_office",    "technical_type": "INTEGER", "targets": [{"table_name": "rkggl_movie_sat"}]}
+	],
+	"data_vault_model": [
+		{"schema_name": "rvlt_test", "tables": [
+			{"table_name": "rkggl_movie_hub",		"stereotype": "hub","key_column_name": "hk_rkggl_movie", "hkey": ["name"]},
+			{"table_name": "rkggl_genre_hub",		"stereotype": "hub","key_column_name": "hk_rkggl_genre", "hkey": ["genre"]},
+            {"table_name": "rkggl_cert_hub",		"stereotype": "hub","key_column_name": "hk_rkggl_cert", "hkey": ["certificate"]},
+			{"table_name": "rkggl_movie_sat",		"stereotype": "sat","key_column_name": "hk_rkggl_movie", "parent_table": "rkggl_movie_hub"},
+            {"table_name": "rkggl_movie_genre_link","stereotype": "link","key_column_name": "lk_rkggl_movie_genre", "link_objects": ["rkggl_movie_hub", "rkggl_genre_hub"]},
+            {"table_name": "rkggl_movie_cert_link","stereotype": "link","key_column_name": "lk_rkggl_movie_cert", "link_objects": ["rkggl_movie_hub", "rkggl_cert_hub"]}
+		]
+		}
+	]
+}

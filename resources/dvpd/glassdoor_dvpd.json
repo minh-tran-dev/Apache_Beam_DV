@@ -1,0 +1,53 @@
+{
+	"DVPD_Version": "1.0",
+	"pipeline_name": "glassdoor_job_reviews",
+	"record_source_name_expression": "kaggle.glassdoor",
+	"data_extraction": {
+		"fetch_module_name": "file_read",
+		"increment_logic": "",
+		"search_expression": "glassdoor_reviews.csv",
+		"file_archive_path": "$PipelineArchiveDirectory",
+		"parse_module_name": "",
+		"codepage": "UTF_8",
+		"columnseparator": ",",
+		"rowseparator": "\n",
+		"skip_first_rows": "0",
+		"reject_procedure": ""
+	},
+	"data_destination": {
+		"database": "bigquery",
+		"provider": "gcp",
+        "project" : "cimt-hh"
+	},
+	"fields": [
+		      	{"field_name":"firm",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_employer_hub"}]},
+				{"field_name":"date_review",    "technical_type": "DATE", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"job_title",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_job_hub"}]},
+				{"field_name":"current",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"location",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_location_hub"}]},
+				{"field_name":"overall_rating",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"work_life_balance",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"culture_values",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"diversity_inclusion",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"career_opp",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"comp_benefits",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"senior_mgmt",    "technical_type": "NUMERIC", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"recommend",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"ceo_approv",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"outlook",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"headline",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"pros",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"cons",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]},
+				{"field_name":"use",    "technical_type": "STRING", "targets": [{"table_name": "rkggl_review_sat"}]}
+	],
+	"data_vault_model": [
+		{"schema_name": "rvlt_test", "tables": [
+			{"table_name": "rkggl_employer_hub",		"stereotype": "hub","key_column_name": "hk_rkggl_employeer", "hkey": ["test_field","firm"]},
+			{"table_name": "rkggl_job_hub",				"stereotype": "hub","key_column_name": "hk_rkggl_job", "hkey": ["job_title"]},
+            {"table_name": "rkggl_location_hub",		"stereotype": "hub","key_column_name": "hk_rkggl_location", "hkey": ["location"]},
+			{"table_name": "rkggl_review_sat",			"stereotype": "sat","key_column_name": "lk_rkggl_job_review", "parent_table": "rkggl_job_review_lnk"},
+			{"table_name": "rkggl_job_review_lnk",		"stereotype": "link","key_column_name": "lk_rkggl_job_review", "link_objects": ["rkggl_employer_hub", "rkggl_job_hub"]}
+		]
+		}
+	]
+}
